@@ -1,4 +1,4 @@
-// 1. First time closest
+// 1. First time closest - DONE
 // 2. Additional cost per new car addition in formula
 // 3. Distance formula
 // 4. Gender
