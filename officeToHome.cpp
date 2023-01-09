@@ -1,9 +1,9 @@
-// Distane formula
-// First time closest
-// Additional cost per new car addition in formula
-// Gender
-// watchmanCost
-// Change in watchmanCost
+// 1. First time closest
+// 2. Additional cost per new car addition in formula
+// 3. Distance formula
+// 4. Gender
+// 5. watchmanCost
+// 6. Change in watchmanCost
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -14,6 +14,22 @@ vector<int> vacantCars;
 
 double getDist(int x, int y, int xx, int yy){
   return sqrt((pow((xx-x) * 1.0, 2) + pow((yy-y) * 1.0, 2)) * 1.0);
+}
+
+void findClosestDrop(vector<vector<int>> &locations, vector<bool> &vis, int x, int y, int &ans, double &dist){
+    for (int j = 0; j < vis.size(); ++j) {
+        if (!vis[j]) {
+            int xx = locations[j][0];
+            int yy = locations[j][1];
+
+            double d = getDist(x, y, xx, yy); //
+
+            if (d < dist) {
+                dist = d;
+                ans = j;
+            }
+        }
+    }
 }
 
 void dfs(vector<vector<int>> &locations, vector<int> &path, vector<bool> &vis,
@@ -30,19 +46,7 @@ void dfs(vector<vector<int>> &locations, vector<int> &path, vector<bool> &vis,
     int ans = -1;
     double dist = INT_MAX;
     
-    for (int j = 0; j < vis.size(); ++j) {
-        if (!vis[j]) {
-            int xx = locations[j][0];
-            int yy = locations[j][1];
-
-            double d = getDist(x, y, xx, yy); //
-
-            if (d < dist) {
-                dist = d;
-                ans = j;
-            }
-        }
-    }
+    findClosestDrop(locations, vis, x, y, ans, dist);
 
     if(dist != INT_MAX)
         dfs(locations, path, vis, ans, carNum);
@@ -56,13 +60,14 @@ void getPaths(vector<vector<int>> &locations) {
     vector<vector<int>> allocations;
     vector<bool> vis(size, 0);
 
-    for (int i = 0; i < size; ++i) {
-        if (!vis[i]) {
-            allocations.push_back({});
-            
-            // Improvement - find closest
-            dfs(locations, allocations.back(), vis, i, allocations.size()-1);
-        }
+    while(size){
+        int drop = -1;
+        double dist = INT_MAX;
+        findClosestDrop(locations, vis, 0, 0, drop, dist);
+
+        allocations.push_back({});
+        dfs(locations, allocations.back(), vis, drop, allocations.size()-1);        
+        size -= allocations.back().size();
     }
 
     for(auto &path: allocations){
@@ -70,7 +75,6 @@ void getPaths(vector<vector<int>> &locations) {
             cout<<"("<<locations[node][0]<< ", "<<locations[node][1]<<"), ";
         cout<<endl<<endl;
     }
-  
 }
 
 int main() {
