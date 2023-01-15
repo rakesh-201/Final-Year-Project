@@ -1,0 +1,7 @@
+[DONE]  Algorithm
+[DONE]  First time closest
+        Additional cost per new car addition in formula
+        Distance formula
+[DONE]  Gender
+[DONE]  watchmanCost
+        Change in watchmanCost

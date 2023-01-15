@@ -1,10 +1,3 @@
-// 1. First time closest - DONE
-// 2. Additional cost per new car addition in formula
-// 3. Distance formula
-// 4. Gender
-// 5. watchmanCost
-// 6. Change in watchmanCost
-
 #include <bits/stdc++.h>
 using namespace std;
 
